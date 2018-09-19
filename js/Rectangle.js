@@ -1,11 +1,4 @@
 class Rectangle {
-  // constructor() {
-  //   this.posX = 20;
-  //   this.posY = 20;
-  //   this.width = 30;
-  //   this.height = 30;
-  //   this.color = '#8673A1'
-  // }
   constructor(paramPosX,paramPosY,paramWidth,paramHeight,paramColor) {
     this.posX = paramPosX;
     this.posY = paramPosY;

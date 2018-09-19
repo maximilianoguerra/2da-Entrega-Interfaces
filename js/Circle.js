@@ -15,8 +15,13 @@ class Circle {
   dibujar(){
     let ctx = document.getElementById('canvas').getContext('2d');
     ctx.fillStyle = this.color;
+
     ctx.beginPath();
     ctx.arc(this.posX,this.posY,this.radio,0,Math.PI*2)
+    ctx.lineWidth=10;
+    ctx.lineCap="round";
+    ctx.strokeStyle="black";
+    ctx.stroke();
     ctx.fill();
     ctx.closePath();
   }

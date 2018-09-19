@@ -43,7 +43,7 @@ canvas.addEventListener('mouseup',function (event) {
       winner = tablero.controlarGanador();
   }
   if(winner){
-    canvasWithe(imageData);
+    mostrarGanador();
   };
   canvas.removeEventListener('mousemove',translateFicha);
 });
@@ -137,5 +137,10 @@ function setPixel(imageData,x,y,r,g,b,a) {
   imageData.data[index+1]=g;
   imageData.data[index+2]=b;
   imageData.data[index+3]=a;
-
 };
+function mostrarGanador() {
+  canvasWithe(imageData);
+  ctx.font = "bold 22px sans-serif";
+  ctx.fillText(jugador1.nombre,100,500);
+  ctx.fillText(jugador2.nombre+"asd",900,500);
+}

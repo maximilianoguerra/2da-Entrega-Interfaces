@@ -4,23 +4,47 @@ let moverFicha = false;
 let image1 = new Image();
 let tablero = new Tablero();
 let color;
-let circulo5 = new Circle(100,800,40,'#ff0000');
-let circulo6 = new Circle(900,800,40,'#ffcd00');
-
+let nombre;
+let circulo5 = new Circle(100,600,40,'#ff0000');
+let circulo6 = new Circle(900,600,40,'#ffcd00');
+let jugador1 = new Jugador("Maxi",circulo5,true);
+let jugador2 = new Jugador("More",circulo6,false);
+let controlCirculo5;
+let controlCirculo6;
+let imageData = ctx.createImageData(1000,700);
+// ctx.font = "bold 22px sans-serif";
+// ctx.fillText(jugador1.nombre,100,500);
+// ctx.fillText(jugador2.nombre+"asd",900,500);
 tablero.dibujar();
-circulo5.dibujar();
-circulo6.dibujar();
+jugador1.circulo.dibujar();
+jugador2.circulo.dibujar();
 canvas.addEventListener('mousedown', function(event) {
   moverFicha=true;
-  canvas.addEventListener('mousemove', translateFicha);
+  controlCirculo5 = jugador1.circulo.isClicked(event.layerX,event.layerY);
+  controlCirculo6 = jugador2.circulo.isClicked(event.layerX,event.layerY);
+  if (controlCirculo5||controlCirculo6) {
+    canvas.addEventListener('mousemove', translateFicha);
+  }
+
 });
 canvas.addEventListener('mouseup',function (event) {
-  console.log("entre");
   moverFicha=false;
-  tablero.agregarFicha(event.layerX,event.layerY,color);
-  circulo5 = new Circle(100,800,40,'#ff0000');
-  circulo6 = new Circle(900,800,40,'#ffcd00');
+  let winner;
+  let seAgrego;
+  if(controlCirculo5||controlCirculo6){
+   seAgrego=tablero.agregarFicha(event.layerX,event.layerY,color,nombre);
+  }
+  jugador1.circulo = new Circle(100,600,40,'#ff0000');
+  jugador2.circulo = new Circle(900,600,40,'#ffcd00');
   actualizar();
+  if(seAgrego){
+      jugador1.setTurno();
+      jugador2.setTurno();
+      winner = tablero.controlarGanador();
+  }
+  if(winner){
+    canvasWithe(imageData);
+  };
   canvas.removeEventListener('mousemove',translateFicha);
 });
 canvas.addEventListener('mouseout',function (event) {
@@ -28,14 +52,16 @@ canvas.addEventListener('mouseout',function (event) {
 });
 function translateFicha(event) {
   if (moverFicha) {
-    if(circulo5.isClicked(event.layerX,event.layerY)){
-      circulo5.posX=event.layerX;
-      circulo5.posY=event.layerY;
+    if((controlCirculo5)&&(jugador1.turno)){
+      jugador1.circulo.posX=event.layerX;
+      jugador1.circulo.posY=event.layerY;
       color=circulo5;
-    }else if (circulo6.isClicked(event.layerX,event.layerY)) {
-      circulo6.posX=event.layerX;
-      circulo6.posY=event.layerY;
+      nombre=jugador1.nombre;
+    }else if ((controlCirculo6)&&(jugador2.turno)) {
+      jugador2.circulo.posX=event.layerX;
+      jugador2.circulo.posY=event.layerY;
       color=circulo6;
+      nombre=jugador2.nombre;
     }
   }
   actualizar();
@@ -52,11 +78,11 @@ function canvasWithe(imageData) {
 
 
 function actualizar() {
-  let imageData = ctx.createImageData(1000,900);
+  console.log("entre");
   canvasWithe(imageData);
   tablero.actualizarTablero();
-  circulo5.dibujar();
-  circulo6.dibujar();
+  jugador1.circulo.dibujar();
+  jugador2.circulo.dibujar();
 }
 function cargarimagen2() {
   let canvas2 = document.getElementById('canvas2');

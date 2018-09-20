@@ -30,33 +30,35 @@
           }
         }
         this.posX=150;
-        this.posy=300;
+        this.posy=100;
     }
     agregarFicha(paramPosX,paramPosY,paramCirculo,paramNombre){
 
       let x=0;
       let y=5;
-      if((paramPosX+40<this.posX+100)&&(this.posX<paramPosX-40)){
-          this.colocarFicha(0,5,paramCirculo,paramNombre);
-          return true;
-        }else if ((paramPosX+40<this.posX+200)&&(this.posX+100<paramPosX-40)) {
-          this.colocarFicha(1,5,paramCirculo,paramNombre);
-          return true;
-        }else if ((paramPosX+40<this.posX+300)&&(this.posX+200<paramPosX-40)) {
-        this.colocarFicha(2,5,paramCirculo,paramNombre);
-          return true;
-        }else if ((paramPosX+40<this.posX+400)&&(this.posX+300<paramPosX-40)) {
-            this.colocarFicha(3,5,paramCirculo,paramNombre);
-            return true;
-        }else if ((paramPosX+40<this.posX+500)&&(this.posX+400<paramPosX-40)) {
-          this.colocarFicha(4,5,paramCirculo,paramNombre);
-          return true;
-        }else if ((paramPosX+40<this.posX+600)&&(this.posX+500<paramPosX-40)) {
-          this.colocarFicha(5,5,paramCirculo,paramNombre);
-          return true;
-        }else if ((paramPosX+40<this.posX+700)&&(this.posX+600<paramPosX-40)) {
-          this.colocarFicha(6,5,paramCirculo,paramNombre);
-          return true;
+      if ((this.posY>paramPosY)) {
+          if((paramPosX+40<this.posX+100)&&(this.posX<paramPosX-40)){
+              this.colocarFicha(0,5,paramCirculo,paramNombre);
+              return true;
+            }else if ((paramPosX+40<this.posX+200)&&(this.posX+100<paramPosX-40)) {
+              this.colocarFicha(1,5,paramCirculo,paramNombre);
+              return true;
+            }else if ((paramPosX+40<this.posX+300)&&(this.posX+200<paramPosX-40)) {
+            this.colocarFicha(2,5,paramCirculo,paramNombre);
+              return true;
+            }else if ((paramPosX+40<this.posX+400)&&(this.posX+300<paramPosX-40)) {
+                this.colocarFicha(3,5,paramCirculo,paramNombre);
+                return true;
+            }else if ((paramPosX+40<this.posX+500)&&(this.posX+400<paramPosX-40)) {
+              this.colocarFicha(4,5,paramCirculo,paramNombre);
+              return true;
+            }else if ((paramPosX+40<this.posX+600)&&(this.posX+500<paramPosX-40)) {
+              this.colocarFicha(5,5,paramCirculo,paramNombre);
+              return true;
+            }else if ((paramPosX+40<this.posX+700)&&(this.posX+600<paramPosX-40)) {
+              this.colocarFicha(6,5,paramCirculo,paramNombre);
+              return true;
+            }
         }
         return false;
       }

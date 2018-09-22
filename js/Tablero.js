@@ -1,8 +1,10 @@
 
   class Tablero {
+
+
     constructor() {
-      this.posX=150;
-      this.posY=100;
+      this.posX=180;
+      this.posY=200;
       this.matTablero=new Array(7);
       this.matTablero[0]=new Array(6);
       this.matTablero[1]=new Array(6);
@@ -12,6 +14,7 @@
       this.matTablero[5]=new Array(6);
       this.matTablero[6]=new Array(6);
     }
+
     dibujar(){
       let paramPosX;
       let paramPosY;
@@ -22,46 +25,48 @@
             let casillero = new Casillero(paramPosX,paramPosY);
             this.matTablero[x][y]= casillero;
             casillero.dibujarCasillero();
-            this.posY+=100;
+            this.posY+=50;
             if (y==5) {
-              this.posY=100;
-              this.posX+=100;
+              this.posY=200;
+              this.posX+=50;
             }
           }
         }
-        this.posX=150;
-        this.posy=100;
+        this.posX=180;
+        this.posy=200;
     }
     agregarFicha(paramPosX,paramPosY,paramCirculo,paramNombre){
 
       let x=0;
       let y=5;
+      let radio =20;
       if ((this.posY>paramPosY)) {
-          if((paramPosX+40<this.posX+100)&&(this.posX<paramPosX-40)){
-              this.colocarFicha(0,5,paramCirculo,paramNombre);
+        if((paramPosX+radio<this.posX+55)&&(this.posX-5<paramPosX-radio)){
+            this.colocarFicha(0,5,paramCirculo,paramNombre);
+            return true;
+          }else if ((paramPosX+radio<this.posX+105)&&(this.posX+45<paramPosX-radio)) {
+            this.colocarFicha(1,5,paramCirculo,paramNombre);
+            return true;
+          }else if ((paramPosX+radio<this.posX+155)&&(this.posX+95<paramPosX-radio)) {
+          this.colocarFicha(2,5,paramCirculo,paramNombre);
+            return true;
+          }else if ((paramPosX+radio<this.posX+205)&&(this.posX+145<paramPosX-radio)) {
+              this.colocarFicha(3,5,paramCirculo,paramNombre);
               return true;
-            }else if ((paramPosX+40<this.posX+200)&&(this.posX+100<paramPosX-40)) {
-              this.colocarFicha(1,5,paramCirculo,paramNombre);
-              return true;
-            }else if ((paramPosX+40<this.posX+300)&&(this.posX+200<paramPosX-40)) {
-            this.colocarFicha(2,5,paramCirculo,paramNombre);
-              return true;
-            }else if ((paramPosX+40<this.posX+400)&&(this.posX+300<paramPosX-40)) {
-                this.colocarFicha(3,5,paramCirculo,paramNombre);
-                return true;
-            }else if ((paramPosX+40<this.posX+500)&&(this.posX+400<paramPosX-40)) {
-              this.colocarFicha(4,5,paramCirculo,paramNombre);
-              return true;
-            }else if ((paramPosX+40<this.posX+600)&&(this.posX+500<paramPosX-40)) {
-              this.colocarFicha(5,5,paramCirculo,paramNombre);
-              return true;
-            }else if ((paramPosX+40<this.posX+700)&&(this.posX+600<paramPosX-40)) {
-              this.colocarFicha(6,5,paramCirculo,paramNombre);
-              return true;
-            }
+          }else if ((paramPosX+radio<this.posX+255)&&(this.posX+195<paramPosX-radio)) {
+            this.colocarFicha(4,5,paramCirculo,paramNombre);
+            return true;
+          }else if ((paramPosX+radio<this.posX+305)&&(this.posX+245<paramPosX-radio)) {
+            this.colocarFicha(5,5,paramCirculo,paramNombre);
+            return true;
+          }else if ((paramPosX+radio<this.posX+355)&&(this.posX+295<paramPosX-radio)) {
+            this.colocarFicha(6,5,paramCirculo,paramNombre);
+            return true;
+          }
         }
         return false;
       }
+
     actualizarTablero(){
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 6; y++) {

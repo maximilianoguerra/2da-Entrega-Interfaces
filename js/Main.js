@@ -1,4 +1,14 @@
 "Use Strict"
+let j1;
+let j2;
+$(document).on('click','#jugar',function (event) {
+  event.preventDefault();
+  j1=$("#j1").val();
+  j2=$("#j2").val();
+  jugador1.setNombre(j1);
+  jugador2.setNombre(j2);
+  actualizar();
+});
 let ctx = document.getElementById('canvas').getContext('2d');
 let moverFicha = false;
 let image1 = new Image();
@@ -7,22 +17,37 @@ let color;
 let nombre;
 let circulo5 = new Circle(100,600,40,'#ff0000');
 let circulo6 = new Circle(900,600,40,'#ffcd00');
-let jugador1 = new Jugador("Maxi",circulo5,true);
-let jugador2 = new Jugador("More",circulo6,false);
+let jugador1 = new Jugador("jugador1",true,'#ff0000',100,50);
+let jugador2 = new Jugador("jugador2",false,'#ffcd00',600,550);
+let backupj1posX;
+let backupj1posY;
+let backupj2posY;
+let backupj2posX;
+canvasFondo();
+jugador1.cargarFichas();
+jugador2.cargarFichas();
+jugador1.dibujarFichas();
+jugador2.dibujarFichas();
+jugador1.escribirNombreYcantidadFichas(ctx);
+jugador2.escribirNombreYcantidadFichas(ctx);
 let controlCirculo5;
 let controlCirculo6;
 let imageData = ctx.createImageData(1000,700);
-// ctx.font = "bold 22px sans-serif";
-// ctx.fillText(jugador1.nombre,100,500);
-// ctx.fillText(jugador2.nombre+"asd",900,500);
+
 tablero.dibujar();
-jugador1.circulo.dibujar();
-jugador2.circulo.dibujar();
+
 canvas.addEventListener('mousedown', function(event) {
-  moverFicha=true;
-  controlCirculo5 = jugador1.circulo.isClicked(event.layerX,event.layerY);
-  controlCirculo6 = jugador2.circulo.isClicked(event.layerX,event.layerY);
+
+  backupj1posX = jugador1.fichas[jugador1.fichas.length-1].posX;
+  backupj1posY = jugador1.fichas[jugador1.fichas.length-1].posY;
+  backupj2posX = jugador2.fichas[jugador2.fichas.length-1].posX;
+  backupj2posY = jugador2.fichas[jugador2.fichas.length-1].posY;
+  // let posXCorregida=event.layerX-event.offsetX;
+  // let posYCorregida =event.layerY-event.offsetY;
+  controlCirculo5 = jugador1.ultimaFichaIsClicked(event.layerX,event.layerY);
+  controlCirculo6 = jugador2.ultimaFichaIsClicked(event.layerX,event.layerY);
   if (controlCirculo5||controlCirculo6) {
+    moverFicha=true;
     canvas.addEventListener('mousemove', translateFicha);
   }
 
@@ -34,16 +59,25 @@ canvas.addEventListener('mouseup',function (event) {
   if(controlCirculo5||controlCirculo6){
    seAgrego=tablero.agregarFicha(event.layerX,event.layerY,color,nombre);
   }
-  jugador1.circulo = new Circle(100,600,40,'#ff0000');
-  jugador2.circulo = new Circle(900,600,40,'#ffcd00');
-  actualizar();
   if(seAgrego){
-      jugador1.setTurno();
-      jugador2.setTurno();
+
+    jugador1.setTurno();
+    jugador2.setTurno();
+      if (controlCirculo5) {
+        jugador1.fichas.pop();
+      }else if (controlCirculo6) {
+        jugador2.fichas.pop();
+      }
       winner = tablero.controlarGanador();
+  }else {
+    jugador1.fichas[jugador1.fichas.length-1].posX=backupj1posX ;
+    jugador1.fichas[jugador1.fichas.length-1].posY=backupj1posY ;
+    jugador2.fichas[jugador2.fichas.length-1].posX=backupj2posX ;
+    jugador2.fichas[jugador2.fichas.length-1].posY=backupj2posY ;
   }
+  actualizar();
   if(winner){
-    mostrarGanador();
+    canvasWithe(imageData);
   };
   canvas.removeEventListener('mousemove',translateFicha);
 });
@@ -53,13 +87,13 @@ canvas.addEventListener('mouseout',function (event) {
 function translateFicha(event) {
   if (moverFicha) {
     if((controlCirculo5)&&(jugador1.turno)){
-      jugador1.circulo.posX=event.layerX;
-      jugador1.circulo.posY=event.layerY;
+      jugador1.fichas[jugador1.fichas.length-1].posX=event.layerX;
+      jugador1.fichas[jugador1.fichas.length-1].posY=event.layerY;
       color=circulo5;
       nombre=jugador1.nombre;
     }else if ((controlCirculo6)&&(jugador2.turno)) {
-      jugador2.circulo.posX=event.layerX;
-      jugador2.circulo.posY=event.layerY;
+      jugador2.fichas[jugador2.fichas.length-1].posX=event.layerX;
+      jugador2.fichas[jugador2.fichas.length-1].posY=event.layerY;
       color=circulo6;
       nombre=jugador2.nombre;
     }
@@ -78,11 +112,12 @@ function canvasWithe(imageData) {
 
 
 function actualizar() {
-  console.log("entre");
-  canvasWithe(imageData);
+  canvasFondo();
   tablero.actualizarTablero();
-  jugador1.circulo.dibujar();
-  jugador2.circulo.dibujar();
+  jugador1.escribirNombreYcantidadFichas(ctx);
+  jugador2.escribirNombreYcantidadFichas(ctx);
+  jugador1.dibujarFichas();
+  jugador2.dibujarFichas();
 }
 function cargarimagen2() {
   let canvas2 = document.getElementById('canvas2');
@@ -137,10 +172,15 @@ function setPixel(imageData,x,y,r,g,b,a) {
   imageData.data[index+1]=g;
   imageData.data[index+2]=b;
   imageData.data[index+3]=a;
+
 };
-function mostrarGanador() {
-  canvasWithe(imageData);
-  ctx.font = "bold 22px sans-serif";
-  ctx.fillText(jugador1.nombre,100,500);
-  ctx.fillText(jugador2.nombre+"asd",900,500);
+function canvasFondo() {
+  let gradient = ctx.createLinearGradient(350,1000,350,0);
+  gradient.addColorStop(0,'white')
+  gradient.addColorStop(1,'grey')
+  ctx.beginPath();
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 1000, 700)
+  ctx.fill();
+  ctx.closePath();
 }

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
-    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+
     <title></title>
   </head>
   <body>
@@ -15,26 +15,80 @@
         </div>
       </div>
       <div class="row">
-          <div class="col-md-12">
-                  <label for="jugador1">Ingrese nombre jugador</label>
-                  <input id="j1"type="text" name="jugador1" value="">
-                  <label for="jugador2">Ingrese nombre jugador</label>
+        <div class="col-md-12">
+          <button id="jugar"type="button" name="button">Jugar</button>
+          <button type="button" name="button">Volver a Jugar</button>
+        </div>
+      </div>
+      <div class="row">
+
+          <div class="col-md-2 jugador1" id="divj1">
+              <div class="ocultar">
+                <label for="jugador1">Nombre jugador</label>
+                <input id="j1"type="text" name="jugador1" value="">
+                <h5>Seleccione una Ficha</h5>
+                <label for="avatar1"><img src="img/ficha1.png" alt="" class="avatar"></label>
+                <input class="checkj1" type="radio" name="avatar1" step="img/ficha1Big.png"  value="img/ficha1.png">
+                <label  for="avatar1"><img src="img/ficha2.png" alt="" class="avatar"></label>
+                <input class="checkj1" type="radio" name="avatar1" step="img/ficha2Big.png"  value="img/ficha2.png">
+                <label for="avatar1"><img src="img/ficha3.png" alt="" class="avatar"></label>
+                <input class="checkj1" type="radio" name="avatar1" step="img/ficha3Big.png" value="img/ficha3.png">
+                <label for="avatar1"><img src="img/ficha4.png" alt="" class="avatar"></label>
+                <input class="checkj1" type="radio" name="avatar1" step="img/ficha4Big.png"  value="img/ficha4.png">
+                <label for="avatar1"><img src="img/ficha5.png" alt="" class="avatar"></label>
+                <input class="checkj1" type="radio" name="avatar1" step="img/ficha5Big.png"  value="img/ficha5.png">
+                <label for="avatar1"><img src="img/ficha6.png" alt="" class="avatar"></label>
+                <input class="checkj1" type="radio" name="avatar1" step="img/ficha6Big.png"  value="img/ficha6.png">
+                <label for="ready">Ready</label>
+                <input id="readyj1"type="checkBox" name="ready" value="Ready" >
+              </div>
+              <div class="mostrar">
+                <h5 id="nombrePlayer1"></h5>
+                <img id="imagenFicha1" src="" alt="">
+              </div>
+            </div>
+            <div class="col-md-8">
+              <canvas id="canvas" width="700" height="500" style="border: 1px solid black"></canvas>
+          </div>
+            <div class="col-md-2 jugador2">
+                <div class="ocultar">
+                  <label for="jugador2">Nombre jugador</label>
                   <input id="j2"type="text" name="jugador2" value="">
-                  <input id="jugar"type="button" name="" value="jugar">
+                  <h5>Seleccione una Ficha</h5>
+                  <label for="avatar2"><img src="img/ficha1.png" alt="" class="avatar"></label>
+                  <input class="checkj2" type="radio" name="avatar2" step="img/ficha1Big.png"  value="img/ficha1.png">
+                  <label  for="avatar2"><img src="img/ficha2.png" alt="" class="avatar"></label>
+                  <input class="checkj2" type="radio" name="avatar2" step="img/ficha2Big.png"  value="img/ficha2.png">
+                  <label for="avatar2"><img src="img/ficha3.png" alt="" class="avatar"></label>
+                  <input class="checkj2" type="radio" name="avatar2" step="img/ficha3Big.png"  value="img/ficha3.png">
+                  <label for="avatar2"><img src="img/ficha4.png" alt="" class="avatar"></label>
+                  <input class="checkj2" type="radio" name="avatar2" step="img/ficha4Big.png"  value="img/ficha4.png">
+                  <label for="avatar2"><img src="img/ficha5.png" alt="" class="avatar"></label>
+                  <input class="checkj2" type="radio" name="avatar2" step="img/ficha5Big.png"  value="img/ficha5.png">
+                  <label for="avatar2"><img src="img/ficha6.png" alt="" class="avatar"></label>
+                  <input class="checkj2" type="radio" name="avatar2" step="img/ficha6Big.png"  value="img/ficha6.png">
+                  <label for="ready">Ready</label>
+                  <input id="readyj2"type="checkBox" name="ready" value="Ready" >
+                  </div>
+                  <div class="mostrar">
+                    <h5 id="nombrePlayer2"></h5>
+                    <img id="imagenFicha2" src="" alt="">
+                  </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12">
-            <canvas id="canvas" width="700" height="500" style="border: 1px solid black"></canvas>
-        </div>
+
       </div>
+
     </div>
   </body>
   <script
-src="https://code.jquery.com/jquery-3.3.1.min.js"
-integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-crossorigin="anonymous"></script>
-<script  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="js/Circle.js"></script>
 <script type="text/javascript" src="js/Rectangle.js"></script>
 <script type="text/javascript" src="js/Casillero.js"></script>

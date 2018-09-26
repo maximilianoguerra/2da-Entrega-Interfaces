@@ -1,7 +1,6 @@
 
   class Tablero {
 
-
     constructor() {
       this.posX=180;
       this.posY=200;
@@ -15,7 +14,7 @@
       this.matTablero[6]=new Array(6);
     }
 
-    dibujar(){
+    dibujar(image){
       let paramPosX;
       let paramPosY;
       for (var x = 0; x < 7; x++) {
@@ -24,7 +23,7 @@
             paramPosY = this.posY;
             let casillero = new Casillero(paramPosX,paramPosY);
             this.matTablero[x][y]= casillero;
-            casillero.dibujarCasillero();
+            casillero.dibujarCasillero(image);
             this.posY+=50;
             if (y==5) {
               this.posY=200;
@@ -35,8 +34,8 @@
         this.posX=180;
         this.posy=200;
     }
-    agregarFicha(paramPosX,paramPosY,paramCirculo,paramNombre){
 
+    agregarFicha(paramPosX,paramPosY,paramCirculo,paramNombre){
       let x=0;
       let y=5;
       let radio =20;
@@ -67,7 +66,7 @@
         return false;
       }
 
-    actualizarTablero(){
+    actualizarTablero(image){
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 6; y++) {
             this.matTablero[x][y].dibujarCasillero();
@@ -82,13 +81,20 @@
         }
         else if(!this.matTablero[x][y].ocupado){
           libre=true;
-          this.matTablero[x][y].circulo.setColor(paramCirculo.color);
+          if(paramCirculo.image!=null){
+            this.matTablero[x][y].circulo.image=paramCirculo.image;
+            this.matTablero[x][y].circulo.color='white';
+          }else{
+            this.matTablero[x][y].circulo.setColor(paramCirculo.color);
+          }
+
           this.matTablero[x][y].ocupadopor=paramNombre;
           this.matTablero[x][y].setDisponibilidad();
         }
           y--;
         }
     }
+
     controlarGanador(){
       let retorno =false;
       if (this.controlarGanadorHor()) {
@@ -102,6 +108,7 @@
       }
       return false;
     }
+
     controlarGanadorHor(){
       for (var y = 0; y < 6; y++) {
         for (var x = 0; x < 6; x++) {
@@ -114,6 +121,7 @@
       }
       return false;
     }
+
     recursiveControlarGanadorHor(x,y){
       let winner = 1;
       let control = false;
@@ -122,6 +130,7 @@
       }
       return winner;
     }
+
     controlarGanadorVer(){
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 5; y++) {
@@ -134,6 +143,7 @@
       }
       return false;
     }
+
     recursiveControlarGanadorVer(x,y){
       let winner = 1;
       let control = false;
@@ -142,6 +152,7 @@
       }
       return winner;
     }
+
     controlarGanadorDiagIzqADer(){
       for (var x = 3; x < 7; x++) {
         for (var y = 0; y < 3; y++) {
@@ -154,6 +165,7 @@
         }
         return false;
     }
+
     recursiveControlarGanadorDiagIzqADer(x,y){
       let winner = 1;
       let control = false;
@@ -162,6 +174,7 @@
       }
       return winner;
     }
+
     controlarGanadorDiagDerAIzq(){
       for (var x = 0; x < 4; x++) {
         for (var y = 0; y < 3; y++) {
@@ -174,6 +187,7 @@
         }
         return false;
       }
+
       recursiveControlarGanadorDiagDerAIzq(x,y){
         let winner = 1;
         let control = false;

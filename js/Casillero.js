@@ -6,10 +6,12 @@ class Casillero {
     this.ocupado=false;
     this.ocupadopor=null;
   }
+
   dibujarCasillero(){
     this.cuadrado.dibujarCuadrado();
     this.circulo.dibujar();
   }
+  
   setDisponibilidad(){
     this.ocupado=true;
   }

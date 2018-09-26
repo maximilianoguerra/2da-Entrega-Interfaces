@@ -55,21 +55,19 @@ $(document).ready(function()
 
 $(document).on('click','#jugar',function (event) {
   event.preventDefault();
-  console.log(checkj1);
-  console.log(checkj2);
+  if ($('#j1').val()!="") {
+    jugador1.nombre=$('#j1').val();
+  }
+  if ($('#j2').val()!="") {
+    jugador2.nombre=$('#j2').val();
+  }
   if ((srcImagej1 == srcImagej2)) {
     alert("Eligieron el mismo color de ficha");
   }else if ((!checkj1)||(!checkj2)) {
     alert("Falta selecionar una Ficha");
-    // checkj1=false;
-    // checkj2=false;
+  }else if (jugador1.nombre==jugador2.nombre) {
+    alert("Jugadores con mismo Nombre");
   }else {
-    if ($('#j1').val()!="") {
-      jugador1.nombre=$('#j1').val();
-    }
-    if ($('#j2').val()!="") {
-      jugador2.nombre=$('#j2').val();
-    }
     canvasFondo();
     tablero.dibujar();
     jugador1.cargarFichas();
@@ -137,6 +135,11 @@ canvas.addEventListener('mouseup',function (event) {
 });
 canvas.addEventListener('mouseout',function (event) {
   moverFicha=false;
+  jugador1.fichas[jugador1.fichas.length-1].posX=backupj1posX ;
+  jugador1.fichas[jugador1.fichas.length-1].posY=backupj1posY ;
+  jugador2.fichas[jugador2.fichas.length-1].posX=backupj2posX ;
+  jugador2.fichas[jugador2.fichas.length-1].posY=backupj2posY ;
+  actualizar(imageFichaj1,imageFichaj2);
 });
 function translateFicha(event) {
   if (moverFicha) {
@@ -222,8 +225,12 @@ function dibujarPatallaGanador(){
 
     ctx.fill();
     ctx.closePath();
+    setTimeout(reset,3000);
   }
 
+}
+function reset(){
+  location.reload();
 }
 function dibujarInicio() {
   canvasFondo()

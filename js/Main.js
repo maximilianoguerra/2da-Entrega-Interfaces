@@ -18,7 +18,8 @@ let ctx = document.getElementById('canvas').getContext('2d');
 let moverFicha = false;
 let image1 = new Image();
 let imageWin=new Image();
-
+let checkj1=false;
+let checkj2=false;
 let tablero = new Tablero();
 let circuloParam;
 let nombre;
@@ -41,19 +42,27 @@ $(document).ready(function()
     imagenMuestra1=$('input:radio[name=avatar1]:checked').attr('step');
     imageFichaj1.src=srcImagej1;
     jugador1.setImage=imageFichaj1;
+    checkj1=true;
     });
     $(".checkj2").click(function () {
       srcImagej2=$('input:radio[name=avatar2]:checked').val();
       imagenMuestra2=$('input:radio[name=avatar2]:checked').attr('step');
       imageFichaj2.src=srcImagej2;
       jugador2.setImage=imageFichaj2;
+      checkj2=true;
       });
    });
 
 $(document).on('click','#jugar',function (event) {
   event.preventDefault();
-  if (srcImagej1 == srcImagej2) {
-    alert("eligieron el mismo color de ficha");
+  console.log(checkj1);
+  console.log(checkj2);
+  if ((srcImagej1 == srcImagej2)) {
+    alert("Eligieron el mismo color de ficha");
+  }else if ((!checkj1)||(!checkj2)) {
+    alert("Falta selecionar una Ficha");
+    // checkj1=false;
+    // checkj2=false;
   }else {
     if ($('#j1').val()!="") {
       jugador1.nombre=$('#j1').val();
@@ -103,7 +112,7 @@ canvas.addEventListener('mouseup',function (event) {
   let winner;
   let seAgrego;
   if(controlCirculo5||controlCirculo6){
-   seAgrego=tablero.agregarFicha(event.layerX,event.layerY,circuloParam);
+   seAgrego=tablero.agregarFicha(event.layerX,event.layerY,circuloParam,nombre);
   }
   if(seAgrego){
     jugador1.setTurno();

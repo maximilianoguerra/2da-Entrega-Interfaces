@@ -14,7 +14,7 @@
       this.matTablero[6]=new Array(6);
     }
 
-    dibujar(image){
+    dibujar(){
       let paramPosX;
       let paramPosY;
       for (var x = 0; x < 7; x++) {
@@ -23,7 +23,7 @@
             paramPosY = this.posY;
             let casillero = new Casillero(paramPosX,paramPosY);
             this.matTablero[x][y]= casillero;
-            casillero.dibujarCasillero(image);
+            casillero.dibujarCasillero();
             this.posY+=50;
             if (y==5) {
               this.posY=200;
@@ -66,7 +66,7 @@
         return false;
       }
 
-    actualizarTablero(image){
+    actualizarTablero(){
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 6; y++) {
             this.matTablero[x][y].dibujarCasillero();

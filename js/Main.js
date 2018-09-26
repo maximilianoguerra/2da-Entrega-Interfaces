@@ -1,13 +1,39 @@
 "Use Strict"
+/*variables globales*/
+let controlCirculo5=true;
+let controlCirculo6=false;
 let j1;
 let j2;
 let srcImagej1;
 let srcImagej2;
 let imagenMuestra1;
 let imagenMuestra2;
+let backupj1posX;
+let backupj1posY;
+let backupj2posY;
+let backupj2posX;
 let imageFichaj1=new Image();
 let imageFichaj2=new Image();
+let ctx = document.getElementById('canvas').getContext('2d');
+let moverFicha = false;
+let image1 = new Image();
+let imageWin=new Image();
+
+let tablero = new Tablero();
+let circuloParam;
+let nombre;
+let circulo5 = new Circle(100,600,40,'#ff0000');
+let circulo6 = new Circle(900,600,40,'#ffcd00');
+let jugador1 = new Jugador("jugador1",true,'#ff0000',100,50);
+let jugador2 = new Jugador("jugador2",false,'#ffcd00',600,550);
+
+/*metodos de manejo dom*/
 $('.mostrar').hide();
+$(document).on('click','#reset',function (event) {
+  event.preventDefault();
+  location.reload()
+});
+
 $(document).ready(function()
   {
   $(".checkj1").click(function () {
@@ -26,15 +52,24 @@ $(document).ready(function()
 
 $(document).on('click','#jugar',function (event) {
   event.preventDefault();
-  if (($('#readyj1').is(':checked')) && ($('#readyj2').is(':checked'))) {
+  if (srcImagej1 == srcImagej2) {
+    alert("eligieron el mismo color de ficha");
+  }else {
     if ($('#j1').val()!="") {
       jugador1.nombre=$('#j1').val();
     }
     if ($('#j2').val()!="") {
       jugador2.nombre=$('#j2').val();
     }
+    canvasFondo();
+    tablero.dibujar();
+    jugador1.cargarFichas();
+    jugador2.cargarFichas();
+    jugador1.dibujarFichas();
+    jugador2.dibujarFichas();
     actualizar(imageFichaj1,imageFichaj2);
-    actualizarTurno();
+    jugador1.escribirNombreYcantidadFichas(ctx);
+    jugador2.escribirNombreYcantidadFichas(ctx);
     $('#nombrePlayer1').append(jugador1.nombre);
     $('#nombrePlayer2').append(jugador2.nombre);
     $('#imagenFicha1').attr('src',imagenMuestra1);
@@ -43,32 +78,10 @@ $(document).on('click','#jugar',function (event) {
     $('.mostrar').show();
   }
 });
-let ctx = document.getElementById('canvas').getContext('2d');
-let moverFicha = false;
-let image1 = new Image();
-let tablero = new Tablero();
-let circuloParam;
-let nombre;
-let circulo5 = new Circle(100,600,40,'#ff0000');
-let circulo6 = new Circle(900,600,40,'#ffcd00');
-let jugador1 = new Jugador("jugador1",true,'#ff0000',100,50);
-let jugador2 = new Jugador("jugador2",false,'#ffcd00',600,550);
-// tablero.setNombreJugadores(jugador1.nombre,jugador2.nombre);
-let backupj1posX;
-let backupj1posY;
-let backupj2posY;
-let backupj2posX;
-canvasFondo();
-jugador1.cargarFichas();
-jugador2.cargarFichas();
-jugador1.dibujarFichas();
-jugador2.dibujarFichas();
-jugador1.escribirNombreYcantidadFichas(ctx);
-jugador2.escribirNombreYcantidadFichas(ctx);
-let controlCirculo5;
-let controlCirculo6;
-let imageData = ctx.createImageData(1000,700);
-tablero.dibujar();
+
+dibujarInicio();
+
+
 
 canvas.addEventListener('mousedown', function(event) {
 
@@ -109,7 +122,7 @@ canvas.addEventListener('mouseup',function (event) {
   }
   actualizar(imageFichaj1,imageFichaj2);
   if(winner){
-    canvasWithe(imageData);
+    dibujarPatallaGanador();
   };
   canvas.removeEventListener('mousemove',translateFicha);
 });
@@ -179,6 +192,39 @@ function actualizarTurno(){
     ctx.fillText("Turno "  +jugador2.nombre,250,100);
   }
 
+  ctx.fill();
+  ctx.closePath();
+}
+function dibujarPatallaGanador(){
+  console.log("entre");
+  imageWin.src = "img/fondoGanador.jpg";
+  console.log(imageWin.src);
+  imageWin.onload =function () {
+    ctx.drawImage(imageWin,0,0,700,500);
+    ctx.beginPath();
+    ctx.font = "italic 50px verdana";
+    ctx.fillStyle = "white";
+    ctx.fillText("Enhorabuena has Ganado",20,100);
+    if (controlCirculo5) {
+      ctx.fillText(jugador1.nombre,100,150);
+    }else {
+      ctx.fillText(jugador2.nombre,100,150);
+    }
+
+    ctx.fill();
+    ctx.closePath();
+  }
+
+}
+function dibujarInicio() {
+  canvasFondo()
+  ctx.beginPath();
+  ctx.font = "italic 50px verdana";
+  ctx.fillStyle = "black";
+  ctx.fillText("Jugar 4 en fila",50,100);
+  ctx.fillText("Coloque su nombre",50,150);
+  ctx.fillText("Seleccione color de ficha",50,200);
+  ctx.fillText("Apretar jugar para iniciar",50,250);
   ctx.fill();
   ctx.closePath();
 }

@@ -169,8 +169,10 @@
     recursiveControlarGanadorDiagIzqADer(x,y){
       let winner = 1;
       let control = false;
-      if ((y<5)&&(this.matTablero[x-1][y+1].ocupadopor==this.matTablero[x][y].ocupadopor)) {
-        winner += this.recursiveControlarGanadorDiagIzqADer(x-1,y+1);
+      if((y<5)&&(x>0)){
+        if ((this.matTablero[x-1][y+1].ocupadopor==this.matTablero[x][y].ocupadopor)) {
+          winner += this.recursiveControlarGanadorDiagIzqADer(x-1,y+1);
+        }
       }
       return winner;
     }
@@ -191,8 +193,10 @@
       recursiveControlarGanadorDiagDerAIzq(x,y){
         let winner = 1;
         let control = false;
-        if ((y<5)&&(this.matTablero[x+1][y+1].ocupadopor==this.matTablero[x][y].ocupadopor)) {
-          winner += this.recursiveControlarGanadorDiagDerAIzq(x+1,y+1);
+        if((y<5)&&(x<6)){
+          if ((y<5)&&(this.matTablero[x+1][y+1].ocupadopor==this.matTablero[x][y].ocupadopor)) {
+            winner += this.recursiveControlarGanadorDiagDerAIzq(x+1,y+1);
+          }
         }
         return winner;
       }

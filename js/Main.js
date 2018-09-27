@@ -27,7 +27,7 @@ let circulo5 = new Circle(100,600,40,'#ff0000');
 let circulo6 = new Circle(900,600,40,'#ffcd00');
 let jugador1 = new Jugador("jugador1",true,'#ff0000',100,50);
 let jugador2 = new Jugador("jugador2",false,'#ffcd00',600,550);
-
+let jugar=false;
 /*metodos de manejo dom*/
 canvas.style.cursor =  "pointer";
 $('.mostrar').hide();
@@ -85,6 +85,7 @@ $(document).on('click','#jugar',function (event) {
     $('.ocultar').hide();
     $('.mostrar').show();
     $('#jugar').attr("disabled", true);
+    jugar=true;
   }
 });
 
@@ -93,49 +94,51 @@ dibujarInicio();
 
 
 canvas.addEventListener('mousedown',function (event) {
+  if (jugar) {
+      backupj1posX = jugador1.fichas[jugador1.fichas.length-1].posX;
+      backupj1posY = jugador1.fichas[jugador1.fichas.length-1].posY;
+      backupj2posX = jugador2.fichas[jugador2.fichas.length-1].posX;
+      backupj2posY = jugador2.fichas[jugador2.fichas.length-1].posY;
 
-  backupj1posX = jugador1.fichas[jugador1.fichas.length-1].posX;
-  backupj1posY = jugador1.fichas[jugador1.fichas.length-1].posY;
-  backupj2posX = jugador2.fichas[jugador2.fichas.length-1].posX;
-  backupj2posY = jugador2.fichas[jugador2.fichas.length-1].posY;
-
-  controlCirculo5 = jugador1.ultimaFichaIsClicked(event.layerX,event.layerY);
-  controlCirculo6 = jugador2.ultimaFichaIsClicked(event.layerX,event.layerY);
-  if (controlCirculo5||controlCirculo6) {
-    moverFicha=true;
-    canvas.addEventListener('mousemove', translateFicha);
-  }
-
+      controlCirculo5 = jugador1.ultimaFichaIsClicked(event.layerX,event.layerY);
+      controlCirculo6 = jugador2.ultimaFichaIsClicked(event.layerX,event.layerY);
+      if (controlCirculo5||controlCirculo6) {
+        moverFicha=true;
+        canvas.addEventListener('mousemove', translateFicha);
+      }
+    }
 });
 
 canvas.addEventListener('mouseup',function (event) {
   moverFicha=false;
   let winner;
   let seAgrego;
-  if(controlCirculo5||controlCirculo6){
-   seAgrego=tablero.agregarFicha(event.layerX,event.layerY,circuloParam,nombre);
-  }
-  if(seAgrego){
-    jugador1.setTurno();
-    jugador2.setTurno();
-      if (controlCirculo5) {
-        jugador1.fichas.pop();
-      }else if (controlCirculo6) {
-        jugador2.fichas.pop();
+  if (jugar) {
+      if(controlCirculo5||controlCirculo6){
+       seAgrego=tablero.agregarFicha(event.layerX,event.layerY,circuloParam,nombre);
       }
-      winner = tablero.controlarGanador();
-      backupj1posX=null;
-  }else {
-    jugador1.fichas[jugador1.fichas.length-1].posX=backupj1posX ;
-    jugador1.fichas[jugador1.fichas.length-1].posY=backupj1posY ;
-    jugador2.fichas[jugador2.fichas.length-1].posX=backupj2posX ;
-    jugador2.fichas[jugador2.fichas.length-1].posY=backupj2posY ;
-  }
-  actualizar(imageFichaj1,imageFichaj2);
-  if(winner){
-    dibujarPatallaGanador();
-  };
-  canvas.removeEventListener('mousemove',translateFicha);
+      if(seAgrego){
+        jugador1.setTurno();
+        jugador2.setTurno();
+          if (controlCirculo5) {
+            jugador1.fichas.pop();
+          }else if (controlCirculo6) {
+            jugador2.fichas.pop();
+          }
+          winner = tablero.controlarGanador();
+          backupj1posX=null;
+      }else {
+        jugador1.fichas[jugador1.fichas.length-1].posX=backupj1posX ;
+        jugador1.fichas[jugador1.fichas.length-1].posY=backupj1posY ;
+        jugador2.fichas[jugador2.fichas.length-1].posX=backupj2posX ;
+        jugador2.fichas[jugador2.fichas.length-1].posY=backupj2posY ;
+      }
+      actualizar(imageFichaj1,imageFichaj2);
+      if(winner){
+        dibujarPatallaGanador();
+      };
+      canvas.removeEventListener('mousemove',translateFicha);
+    }
 });
 canvas.addEventListener('mouseout',function () {
   moverFicha=false;
@@ -235,7 +238,8 @@ function dibujarPatallaGanador(){
 
     ctx.fill();
     ctx.closePath();
-    setTimeout(reset,2000);
+    jugar=false;
+    setTimeout(reset,3000);
   }
 
 }

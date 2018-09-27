@@ -5,6 +5,7 @@ body{
   background-attachment: fixed;
   background-position: center center;
   background-size: cover;
+
 }
 .container{
   text-align:center;
@@ -14,6 +15,10 @@ body{
     width: 30px;
     height: 30px;
     border-radius: 50%;
+}
+.fontNombre,h1,h3{
+  font-style: italic;
+  font-family: verdana;
 }
 #j1,#j2{
   width: 150px;
